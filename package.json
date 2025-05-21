@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@textbus/adapter-vue": "^4.4.0",
-    "@textbus/core": "^4.4.0",
-    "@textbus/platform-browser": "^4.4.0",
+    "@textbus/adapter-vue": "^4.4.2",
+    "@textbus/core": "4.4.2",
+    "@textbus/platform-browser": "^4.4.2",
     "vue": "^3.5.13"
   },
   "devDependencies": {

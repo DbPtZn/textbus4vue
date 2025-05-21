@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@textbus/adapter-vue':
-        specifier: ^4.4.0
-        version: 4.4.0(typescript@5.6.3)
+        specifier: ^4.4.2
+        version: 4.4.2(typescript@5.6.3)
       '@textbus/core':
-        specifier: ^4.4.0
-        version: 4.4.0
+        specifier: 4.4.2
+        version: 4.4.2
       '@textbus/platform-browser':
-        specifier: ^4.4.0
-        version: 4.4.0
+        specifier: ^4.4.2
+        version: 4.4.2
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.6.3)
@@ -402,14 +402,14 @@ packages:
   '@tanbo/stream@1.2.7':
     resolution: {integrity: sha512-ATKVjpQFmr7x+iCKGOGWFzrtB5ZsNef6UKATWZs1R1eE16pyrBwl2AZrnALi+eQQTxOo5Ol6Rmck2BBBgBAnmA==}
 
-  '@textbus/adapter-vue@4.4.0':
-    resolution: {integrity: sha512-+kMAc36erSH3eC4C5gWMIWhk+Bn2+wB/ljxZ3UOkrS0UQARsyp7JNtpIn10zAeM4cAkaXpwJaJjMHSwPAFle7Q==}
+  '@textbus/adapter-vue@4.4.2':
+    resolution: {integrity: sha512-dqRlVPx5ab/RxNEy4+sdJFZot9NXTpXe9BrXQsJDz6w43RFnmtiAPSuU0t9Nej7MUctW/DfuqGyk7o56jqSyPw==}
 
-  '@textbus/core@4.4.0':
-    resolution: {integrity: sha512-p9k1oPhyNs+/Yz02jQ2J2rDSf0kI+ZawEApz7GqeNQpNWxfkZyqPsPTejW2nyeFV3h97FLXpNS7w8I79k59opw==}
+  '@textbus/core@4.4.2':
+    resolution: {integrity: sha512-cuV3YWsemUJNWh2xh/2f+uO9jmDWodiNBepx9Agg+QZ4GhptECKsRqj14jCD1mdQRRcR8DY75rwSM21s3tjkrw==}
 
-  '@textbus/platform-browser@4.4.0':
-    resolution: {integrity: sha512-m3d6uLiFJbCS//wP38j/wdH8LdUfWUhqhzx+loraDTuCh4g4Ebb4i/Yiqmt4tBGEVdO/CixPxT/cxNbFhBU3QA==}
+  '@textbus/platform-browser@4.4.2':
+    resolution: {integrity: sha512-pBZIWAL+AT+4+jMGTzxHJcZihKgC4x/JworWsI5tyV0Fxazl3Nj6+x4oys1l/M0DcWGyMqFuSjGyU3R+1u/McA==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -417,8 +417,8 @@ packages:
   '@types/node@22.10.1':
     resolution: {integrity: sha512-qKgsUwfHZV2WCWLAnVP1JqnpE6Im6h3Y0+fYgMTasNQ7V++CBX5OT1as0g0f+OyubbFqhf6XVNIsmN4IIhEgGQ==}
 
-  '@viewfly/core@1.2.0':
-    resolution: {integrity: sha512-U0gnvVJnfO9qU/Z+4y8+r9A6VnUsqX4U5a4HPfwWgOQBYFGlxyCZM0GoekHN0qNWjkBeiANo2eyKrbAq6cJl5Q==}
+  '@viewfly/core@1.2.6':
+    resolution: {integrity: sha512-4EyqTNcwIfKbB4CFB+bhM8I8KMr1dBuOts6VvkG07uykAIFnXVRwwhRceLC350OMlWRbwHZWNmlNLMBKu7yDGA==}
 
   '@vitejs/plugin-vue@5.2.1':
     resolution: {integrity: sha512-cxh314tzaWwOLqVes2gnnCtvBDcM1UMdn+iFR+UjAn411dPT3tOmqrJjbMd7koZpMAmBM/GqeV4n9ge7JSiJJQ==}
@@ -884,25 +884,25 @@ snapshots:
 
   '@tanbo/stream@1.2.7': {}
 
-  '@textbus/adapter-vue@4.4.0(typescript@5.6.3)':
+  '@textbus/adapter-vue@4.4.2(typescript@5.6.3)':
     dependencies:
       '@tanbo/stream': 1.2.7
-      '@textbus/core': 4.4.0
-      '@textbus/platform-browser': 4.4.0
+      '@textbus/core': 4.4.2
+      '@textbus/platform-browser': 4.4.2
       vue: 3.5.13(typescript@5.6.3)
     transitivePeerDependencies:
       - typescript
 
-  '@textbus/core@4.4.0':
+  '@textbus/core@4.4.2':
     dependencies:
       '@tanbo/stream': 1.2.7
-      '@viewfly/core': 1.2.0
+      '@viewfly/core': 1.2.6
 
-  '@textbus/platform-browser@4.4.0':
+  '@textbus/platform-browser@4.4.2':
     dependencies:
       '@tanbo/stream': 1.2.7
-      '@textbus/core': 4.4.0
-      '@viewfly/core': 1.2.0
+      '@textbus/core': 4.4.2
+      '@viewfly/core': 1.2.6
 
   '@types/estree@1.0.6': {}
 
@@ -910,7 +910,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@viewfly/core@1.2.0':
+  '@viewfly/core@1.2.6':
     dependencies:
       reflect-metadata: 0.2.2
 
