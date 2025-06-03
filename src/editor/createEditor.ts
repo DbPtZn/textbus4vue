@@ -4,9 +4,6 @@ import { App, VNode, createApp, createVNode, h } from 'vue'
 import { VueAdapter, VueAdapterComponents } from '@textbus/adapter-vue'
 import { RootComponent, rootComponentLoader } from './components/root/root.component'
 import { ParagraphComponent, deltaToBlock } from './components/paragraph/paragraph.component'
-
-// import './app.css'
-
 import RootView from './components/root/root.view.vue'
 import ParagraphView from './components/paragraph/paragraph.view.vue'
 import { AdapterInjectToken, TextbusInjectToken } from './tokens'
@@ -16,8 +13,6 @@ export const defaultViews: VueAdapterComponents = {
   [RootComponent.componentName]: RootView as any,
   [ParagraphComponent.componentName]: ParagraphView,
 }
-
-
 
 export async function createEditor(host: HTMLElement) {
   // let app: App | null = null
@@ -43,7 +38,7 @@ export async function createEditor(host: HTMLElement) {
   )
 
   function getHtmlStr() {
-    console.log('getHtmlStr')
+    // console.log('getHtmlStr')
     return new Promise<string>((resolve, reject) => {
       const renderAdapter = new VueAdapter({
         // 添加渲染组件映射关系
