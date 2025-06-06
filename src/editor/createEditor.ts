@@ -1,5 +1,5 @@
-import { BrowserModule, Parser } from '@textbus/platform-browser'
-import { Component, ContentType, Slot, Textbus } from '@textbus/core'
+import { AttributeLoader, BrowserModule, ComponentLoader, FormatLoader, Parser, ViewOptions } from '@textbus/platform-browser'
+import { Attribute, Component, ComponentLiteral, ContentType, Formatter, Slot, Textbus, TextbusConfig } from '@textbus/core'
 import { App, VNode, createApp, createVNode, h } from 'vue'
 import { VueAdapter, VueAdapterComponents } from '@textbus/adapter-vue'
 import { RootComponent, rootComponentLoader } from './components/root/root.component'
@@ -8,11 +8,51 @@ import RootView from './components/root/root.view.vue'
 import ParagraphView from './components/paragraph/paragraph.view.vue'
 import { AdapterInjectToken, TextbusInjectToken } from './tokens'
 import { renderToString } from 'vue/server-renderer'
+import { I18NConfig } from './i18n'
 
+interface EditorOptions {
+  i18n?: I18NConfig
+  content?: ComponentLiteral
+  textbusOptions?: TextbusConfig
+  viewOptions?: Omit<ViewOptions, 'adapter'>
+  adapterComponents?: VueAdapterComponents
+}
+
+// 桥接视图
 export const defaultViews: VueAdapterComponents = {
   [RootComponent.componentName]: RootView as any,
   [ParagraphComponent.componentName]: ParagraphView,
 }
+
+// 格式
+export const defaultFormatters: Formatter<any>[] = [
+ 
+]
+
+// 格式加载器
+export const defaultFormatLoaders: FormatLoader<any>[] = [
+
+]
+
+// 属性
+export const defaultAttributes: Attribute<any>[] = [
+
+]
+
+// 属性加载器
+export const defaultAttributeLoaders: AttributeLoader<any>[] = [
+  
+]
+
+// 组件
+export const defaultComponents: Component[] = [
+
+]
+
+// 组件加载器
+export const defaultComponentLoaders: ComponentLoader[] = [
+
+]
 
 export async function createEditor(host: HTMLElement) {
   // let app: App | null = null

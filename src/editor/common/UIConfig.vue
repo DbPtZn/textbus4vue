@@ -12,7 +12,7 @@ import { inject, onUnmounted, ref } from 'vue'
 import { darkTheme, NConfigProvider, NMessageProvider, NDialogProvider } from 'naive-ui'
 import { Textbus } from '@textbus/core'
 import { darkThemeOverrides, lightThemeOverrides } from './theme/_api'
-import { ThemeProvider } from '../plugins/theme/theme.plugin'
+import { ThemeProvider } from '../providers/theme.provider'
 const injector = inject<Textbus>('textbus')
 const themeProvider = injector?.get(ThemeProvider)
 const theme = ref(themeProvider?.theme)

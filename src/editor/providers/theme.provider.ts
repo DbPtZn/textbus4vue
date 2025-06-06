@@ -1,13 +1,7 @@
-// import { Observable, Subject, Subscription } from '@tanbo/stream'
 import { Textbus, Observable, Subject, Subscription } from '@textbus/core'
+import { VIEW_CONTAINER } from '@textbus/platform-browser'
 import * as _ from 'lodash-es'
 import { Injectable } from '@viewfly/core'
-import { Structurer } from '../plugins/structurer/structurer.plugin'
-import { Layout } from '@textbus/editor'
-// import '../index.scss'
-// import '../assets/index.css'
-// import '../anime.scss'
-// import 'material-icons/iconfont/outlined.css'
 
 type ThemeState = 'light' | 'dark'
 /**
@@ -22,18 +16,22 @@ export class ThemeProvider {
   private subs: Subscription[] = []
   private editorHost: HTMLElement | null = null
   private toolbarHost: HTMLElement | null = null
-  private layout: Layout | null = null
+  private container: HTMLElement | null = null
   constructor() {
     this.onThemeUpdate = this.themeUpdateEvent.asObservable()
   }
-  setup(injector: Injector, fontSize='16px'): void {
-    this.layout = injector.get(Layout)
-    this.editorHost = this.layout.container
-    this.layout.middle.setAttribute('data-color', '#495060')
-    this.layout.middle.style.color = '#495060'
-    this.layout.middle.style.fontSize = fontSize
-    const structurer = injector.get(Structurer)
-    this.toolbarHost = structurer.toolbarEl
+  setup(injector: Textbus, fontSize='16px'): void {
+    // this.layout = injector.get(Layout)
+    // this.editorHost = this.layout.container
+    // this.layout.middle.setAttribute('data-color', '#495060')
+    // this.layout.middle.style.color = '#495060'
+    // this.layout.middle.style.fontSize = fontSize
+    // const structurer = injector.get(Structurer)
+    // this.toolbarHost = structurer.toolbarEl
+    this.container = injector.get(VIEW_CONTAINER)!
+    this.container.setAttribute('data-color', '#495060')
+    this.container.style.color = '#495060'
+    this.container.style.fontSize = fontSize
     this.subs.push(
       this.onThemeUpdate.subscribe(value => {
         switch (value) {
