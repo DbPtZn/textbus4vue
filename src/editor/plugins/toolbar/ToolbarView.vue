@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { VNode, h, inject, nextTick, onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { NButton, useThemeVars } from 'naive-ui'
-import { Controller, Injector, Keymap, Subscription, fromEvent } from '@textbus/core'
-// import { useGetKeymapHandler, useKeymap } from './hooks/_api'
-import _ from 'lodash'
+import { Controller, Keymap, Subscription, fromEvent } from '@textbus/core'
+import { Injector } from '@viewfly/core'
+import * as _ from 'lodash-es'
 import random from 'string-random'
 import elementResizeDetector from 'element-resize-detector'
-import { useGetKeymapHandler, useKeymap } from './hooks'
+import { useGetKeymapHandler, useKeymap } from './hooks/_api'
 const erd = elementResizeDetector()
 const themeVars = useThemeVars()
 const injector = inject<Injector>('injector')!
@@ -24,6 +24,7 @@ const collapseState = ref(false)
 function handleExpandBtnClick() {
   collapseState.value = !collapseState.value
 }
+
 const toolbarRef = ref<HTMLElement>()
 const collapseRef = ref<HTMLElement>()
 onBeforeMount(() => {
@@ -94,7 +95,6 @@ async function useToolbarCollapse() {
 }
 
 onUnmounted(() => {
-  // console.log('工具条销毁')
   try {
     if (toolbarRef.value) {
       erd.uninstall(toolbarRef.value)

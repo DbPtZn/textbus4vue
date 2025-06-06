@@ -1,10 +1,10 @@
-import { auditTime, merge, Subscription } from '@tanbo/stream'
-import { makeError, Selection, Plugin, Injector } from '@textbus/core'
-import _ from 'lodash-es'
+import { makeError, Selection, Plugin, auditTime, merge, Subscription } from '@textbus/core'
+import * as _ from 'lodash-es'
+import { App, createApp, h, VNode } from 'vue'
+import { Injector } from '@viewfly/core'
 import { Tool } from './types'
 import ToolbarView from './ToolbarView.vue'
-import { App, createApp, h, VNode } from 'vue'
-import { UIConfig } from '../../common'
+import { UIConfig } from '../../common/_api'
 
 const toolbarErrorFn = makeError('Toolbar')
 
@@ -81,52 +81,3 @@ export class Toolbar implements Plugin {
   }
 
 }
-
-// /** 统计片段时长 */
-// calSum(array) {
-//   let sum = 0
-//   this.data.forEach((item) => {
-//     sum += item.duration
-//     // console.log(item.duration)
-//   })
-//   // console.log(sum)
-//   return secTotime(sum)
-// }
-/**
- * (widthSequence.length - 1) * 8 是所有按钮组的左右外边距之和
- * 20 是 toolWrapper 的左右内边距
- * _.sum(widthSequence) 是所有按钮组的宽度之和
- */
-// console.log((widthSequence.length - 1) * 8 + 20) // 148
-// console.log(_.sum(widthSequence)) // 952
-// console.log(this.toolWrapper.offsetWidth) // 1100
-// boundarySequence.forEach((item, index, arr) => {
-//   // console.log([toolbar.offsetWidth - 50, item])
-//   // console.log(toolbar.offsetWidth - 50 < item)
-//   if (toolbar.offsetWidth - 50 < item) {
-//     console.log('bbb ')
-//     if (toolWrapper.children[boundarySequence.length - index - 1]) {
-//       collapseWrapper.insertBefore(
-//         toolWrapper.children[boundarySequence.length - index - 1],
-//         collapseWrapper.firstChild
-//       )
-//       // return
-//     }
-//   } else {
-//     // console.log(boundarySequence.length - index - 1)
-//     /** 反之，如果本来该有按钮位置没用按钮，就应该从折叠工具条中将按钮取回 */
-//     // console.log(toolWrapper.children[boundarySequence.length - index - 1])
-//     // console.log(!toolWrapper.children[boundarySequence.length - index - 1])
-//     if (!toolWrapper.children[boundarySequence.length - index - 1]) {
-//       // console.log(collapseWrapper.children[0])
-//       if (collapseWrapper.children[0]) {
-//         toolWrapper.appendChild(collapseWrapper.children[0])
-//       }
-//       index--
-//       // if (collapseWrapper.firstChild) {
-//       //   toolWrapper.appendChild(collapseWrapper.firstChild)
-//       // }
-//       // return
-//     }
-//   }
-// })
