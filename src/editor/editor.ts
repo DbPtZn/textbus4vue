@@ -1,6 +1,32 @@
-import { AttributeLoader, BrowserModule, ComponentLoader, DomAdapter, FormatLoader, isMobileBrowser, Parser, ViewOptions } from '@textbus/platform-browser'
-import { AsyncComponentConstructor, Attribute, Plugin, Component, ComponentConstructor, ComponentLiteral, ComponentStateLiteral, ContentType, Formatter, Metadata, Module, Slot, State, Textbus, TextbusConfig, RootComponentRef } from '@textbus/core'
-import { App, VNode, createApp, createVNode, h } from 'vue'
+import {
+  AttributeLoader,
+  BrowserModule,
+  ComponentLoader,
+  DomAdapter,
+  FormatLoader,
+  isMobileBrowser,
+  Parser,
+  ViewOptions
+} from '@textbus/platform-browser'
+import {
+  AsyncComponentConstructor,
+  Attribute,
+  Plugin,
+  Component,
+  ComponentConstructor,
+  ComponentLiteral,
+  ComponentStateLiteral,
+  ContentType,
+  Formatter,
+  Metadata,
+  Module,
+  Slot,
+  State,
+  Textbus,
+  TextbusConfig,
+  RootComponentRef
+} from '@textbus/core'
+import { App, VNode, cloneVNode, createApp, createVNode, h, createRenderer } from 'vue'
 import { VueAdapter, VueAdapterComponents } from '@textbus/adapter-vue'
 import { RootComponent, rootComponentLoader, RootComponentState } from './components/root/root.component'
 import { ParagraphComponent, deltaToBlock } from './components/paragraph/paragraph.component'
@@ -9,8 +35,9 @@ import ParagraphView from './components/paragraph/paragraph.view.vue'
 import { AdapterInjectToken, TextbusInjectToken } from './tokens'
 import { renderToString } from 'vue/server-renderer'
 import { I18NConfig } from './i18n'
+// import { InjectionToken } from '@viewfly/core'
 
-
+// export const OutputInjectionToken = new InjectionToken<boolean>('OutputInjectionToken')
 // interface EditorOptions {
 //   i18n?: I18NConfig
 //   content?: ComponentLiteral
@@ -50,10 +77,7 @@ export const defaultAttributes: Attribute<any>[] = []
 export const defaultAttributeLoaders: AttributeLoader<any>[] = []
 
 // 组件
-export const defaultComponents: (ComponentConstructor<State> | AsyncComponentConstructor<Metadata, State>)[] = [
-  ParagraphComponent,
-  RootComponent
-]
+export const defaultComponents: (ComponentConstructor<State> | AsyncComponentConstructor<Metadata, State>)[] = [ParagraphComponent, RootComponent]
 
 // 插件
 export const defaultPlugins: Plugin[] = []
@@ -66,9 +90,9 @@ export class Editor extends Textbus {
   private host!: HTMLElement
   private vDomAdapter!: VueAdapter
   private vDomApp!: App
+  private tempContainer!: HTMLElement
 
   constructor(private editorConfig: EditorConfig = {}) {
-    
     const adapter = new VueAdapter(
       {
         // 添加渲染组件映射关系
@@ -78,6 +102,7 @@ export class Editor extends Textbus {
         // class Editor extends Textbus ---> editor 实例就是 Textbus 实例
         const textbus = injector.get(Textbus)
         const app = createApp(root).provide(TextbusInjectToken, textbus).provide(AdapterInjectToken, adapter)
+        console.log(app)
         app.mount(host)
         return () => {
           app?.unmount()
@@ -91,52 +116,13 @@ export class Editor extends Textbus {
       },
       useContentEditable: isMobileBrowser(),
       adapter,
-      componentLoaders: [
-        ...defaultComponentLoaders
-      ],
-      formatLoaders: [
-        ...defaultFormatLoaders
-      ],
+      componentLoaders: [...defaultComponentLoaders],
+      formatLoaders: [...defaultFormatLoaders],
       attributeLoaders: [...defaultAttributeLoaders],
       ...editorConfig.viewOptions
     })
 
     const modules: Module[] = [browserModule]
-
-    // 实例化 Textbus （依赖： 浏览器模块实例）
-    // const textbus = new Textbus({
-    //   imports: [browserModule],
-    //   components: [RootComponent, ParagraphComponent]
-    // })
-
-    // const vDomAdapter = new VueAdapter(
-    //   {
-    //     [ParagraphComponent.componentName]: ParagraphView,
-    //     [RootComponent.componentName]: RootView,
-    //   } as any,
-    //   (host, root, injector) => {
-    //     const appInjector = new ReflectiveInjector(injector, [
-    //       {
-    //         provide: OutputInjectionToken,
-    //         useValue: true
-    //       },
-    //       {
-    //         provide: DomAdapter,
-    //         useFactory: () => {
-    //           return vDomAdapter
-    //         }
-    //       }
-    //     ])
-    //     const app = createApp(root, {
-    //       context: appInjector,
-    //       nativeRenderer: new HTMLRenderer()
-    //     }).mount(host)
-
-    //     return () => {
-    //       app.destroy()
-    //     }
-    //   }
-    // )
 
     const vDomAdapter = new VueAdapter(
       {
@@ -145,14 +131,14 @@ export class Editor extends Textbus {
       },
       (host, root, injector) => {
         const textbus = injector.get(Textbus)
-        const app = createApp(root).provide(TextbusInjectToken, textbus).provide(AdapterInjectToken, vDomAdapter)
+        // this.tempContainer = host as HTMLElement
+        const app = createApp({
+          render: () => root
+        }).provide(TextbusInjectToken, textbus).provide(AdapterInjectToken, vDomAdapter)
+        // console.log(app)
         app.mount(host)
         this.vDomApp = app
-        // console.log(host)
-        // renderToString(app).then(html => {
-        //   resolve(html)
-        //   app?.unmount()
-        // })
+
         return () => {
           app?.unmount()
         }
@@ -163,12 +149,8 @@ export class Editor extends Textbus {
       zenCoding: true,
       additionalAdapters: [vDomAdapter],
       imports: modules,
-      components: [
-        ...defaultComponents
-      ],
-      formatters: [
-        ...defaultFormatters
-      ],
+      components: [...defaultComponents],
+      formatters: [...defaultFormatters],
       attributes: [...defaultAttributes],
       plugins: [...defaultPlugins],
       providers: [],
@@ -203,33 +185,41 @@ export class Editor extends Textbus {
     Object.assign(rootComponent.state, newModel.state)
   }
 
-  
-
   getHtml() {
-    // console.log('getHtmlStr')
+    // this.vDomAdapter.host.innerHTML
+    const str = renderToString(this.vDomApp)
+    return str
+    // return this.vDomAdapter.host.innerHTML
+    // console.log('getHtml')
     // return new Promise<string>((resolve, reject) => {
-    //   const renderAdapter = new VueAdapter(
+    //   const vDomAdapter = new VueAdapter(
     //     {
     //       // 添加渲染组件映射关系
     //       ...defaultViews
     //     },
     //     (host, root, injector) => {
-    //       const textbus = injector as Textbus
-    //       const app = createApp(root).provide(TextbusInjectToken, textbus).provide(AdapterInjectToken, renderAdapter)
-    //       app.mount(host)
-    //       console.log(host)
-    //       renderToString(app).then(html => {
-    //         resolve(html)
-    //         app?.unmount()
+    //       const textbus = injector.get(Textbus)
+        
+    //       const app = createApp({
+    //         render: () => root
     //       })
+    //         .provide(TextbusInjectToken, textbus)
+    //         .provide(AdapterInjectToken, vDomAdapter)
+    //       console.log('renderToString')
+    //       app.mount(host)
+    //       renderToString(app).then(str => {
+    //         resolve(str)
+    //       })
+
+    //       return () => {
+    //         app?.unmount()
+    //       }
     //     }
     //   )
     //   const rootComponent = this.get(RootComponentRef).component
-    //   renderAdapter.render(rootComponent, this)
+    //   const textbus = this.get(Textbus)
+    //   vDomAdapter.render(rootComponent, textbus)
     // })
-    // console.log(this.vDomApp)
-
-    return renderToString(this.vDomApp!)
   }
 
   private createModel(content: string | ComponentStateLiteral<RootComponentState>) {
