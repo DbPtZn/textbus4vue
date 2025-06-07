@@ -20,10 +20,19 @@ export class ParagraphComponent extends Component<ParagraphComponentState> {
   static type = ContentType.BlockComponent
 
   static fromJSON (textbus: Textbus, state: ComponentStateLiteral<ParagraphComponentState>) {
-    const registry = textbus.get(Registry)
+    const slot = textbus.get(Registry).createSlot(state.slot)
     return new ParagraphComponent(textbus, {
-      slot: registry.createSlot(state.slot)
+      slot
     })
+  }
+
+  constructor(textbus: Textbus, state: ParagraphComponentState = {
+    slot: new Slot([
+      ContentType.InlineComponent,
+      ContentType.Text
+    ])
+  }) {
+    super(textbus, state)
   }
 
   getSlots() {

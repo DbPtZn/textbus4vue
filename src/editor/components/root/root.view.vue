@@ -17,7 +17,7 @@ export default defineComponent({
     const adapter = inject(AdapterInjectToken)!
     return {
       slotRender () {
-        const slot = props.component.state.slot
+        const slot = props.component.state.content
         return adapter.slotRender(slot, children => {
           return createVNode('div', null, children)
         })

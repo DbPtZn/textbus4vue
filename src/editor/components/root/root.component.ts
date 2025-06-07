@@ -6,13 +6,18 @@ import {
   Slot,
   Textbus,
   useContext,
-  ComponentStateLiteral, Registry
+  ComponentStateLiteral, Registry,
+  Subject,
+  CompositionStartEventData,
+  Event,
+  onCompositionStart
 } from '@textbus/core'
 import { ParagraphComponent, deltaToBlock } from '../paragraph/paragraph.component'
 import { ComponentLoader, SlotParser } from '@textbus/platform-browser'
+import { useBlockContent } from './use-block-content'
 
 export interface RootComponentState {
-  slot: Slot
+  content: Slot
 }
 
 // 创建 Textbus 根组件
@@ -21,20 +26,28 @@ export class RootComponent extends Component<RootComponentState> {
   static type = ContentType.BlockComponent
 
   static fromJSON (textbus: Textbus, state: ComponentStateLiteral<RootComponentState>) {
-    const registry = textbus.get(Registry)
-    return new ParagraphComponent(textbus, {
-      slot: registry.createSlot(state.slot)
+    const content = textbus.get(Registry).createSlot(state.content)
+    return new RootComponent(textbus, {
+      content
     })
   }
 
+  onCompositionStart = new Subject<Event<Slot, CompositionStartEventData>>()
+
   getSlots() {
-    return [this.state.slot]
+    return [this.state.content]
   }
 
   setup () {
     const selection = useContext(Selection)
     const textbus = useContext()
     // 监听内容插入事件
+
+    useBlockContent((slot) => slot === this.state.content)
+
+    onCompositionStart(ev => {
+      this.onCompositionStart.next(ev)
+    })
 
     onContentInsert(ev => {
       // 当插入的内容是一个字符串或行内组件时，我们将创建新的段落

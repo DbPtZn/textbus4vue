@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { createEditor } from '@/editor/createEditor'
-// import {  } from '@textbus/adapter-vue'
+import { Editor } from '@/editor/editor'
 import { Subject, Textbus } from '@textbus/core'
 import { create } from 'domain';
 import { App, VNode, cloneVNode, createApp, onMounted, ref, useTemplateRef, render } from 'vue'
@@ -12,11 +11,17 @@ const jsonStr = ref('')
 const htmlStr = ref('') 
 const onRender = new Subject<void>()
 let editor: Textbus | null = null
+const jsonStr1 = `{"name":"RootComponent","state":{"slot":{"schema":[3],"content":[{"name":"ParagraphComponent","state":{"slot":{"schema":[1,2],"content":["在浩瀚无垠的宇宙中，我们不过是一粒微尘，却有幸窥见这壮丽的画卷。夜幕降临，星辰如钻石般镶嵌在黑色的天鹅绒上，每一颗都承载着亿万年的故事，静静地诉说着宇宙的奥秘。\n"],"attributes":{},"formats":{}}}}],"attributes":{},"formats":{}}}}`
+const htmlStr1 = `<p>在浩瀚无垠的宇宙中，我们不过是一粒微尘，却有幸窥见这壮丽的画卷。夜幕降临，星辰如钻石般镶嵌在黑色的天鹅绒上，每一颗都承载着亿万年的故事，静静地诉说着宇宙的奥秘。</p>`
+
 onMounted(async () => {
-  const { textbus, getHtmlStr } = await createEditor(editorEl.value!)
-  editor = textbus
+  // const { textbus, getHtmlStr } = await createEditor(editorEl.value!)
+  const editor = new Editor({
+    content: htmlStr1
+  })
+  editor.mount(editorEl.value!)
   onRender.subscribe(async () => {
-    htmlStr.value = await getHtmlStr()
+    htmlStr.value = await editor.getHtml()
   })
 })
 function renderJson() {
